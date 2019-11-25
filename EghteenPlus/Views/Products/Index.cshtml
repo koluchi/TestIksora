@@ -1,0 +1,84 @@
+﻿@model IEnumerable<EghteenPlus.Models.Product>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Products 18+</h2>
+<button onclick="location.href='@Url.Action("Index", "Cart")'">Cart</button>
+<button onclick="location.href='@Url.Action("Index", "Products", new { sort = ViewBag.sort })'">Sort by @ViewBag.sort</button>
+@using (Html.BeginForm("Index", "Products", FormMethod.Get))
+{
+<p>
+    From price: @Html.TextBox("from")
+    To price: @Html.TextBox("to")
+    <input type="submit" value="Filter" />
+</p>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Url)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Descr)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            Count
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <img src="@item.Url" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descr)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                <input id="@item.Id" type="text" />
+            </td>
+            <td>
+                <button onclick="buy('@item.Id')">Buy</button>
+            </td>
+
+        </tr>
+    }
+
+</table>
+
+<script>
+    buy = function (id) {
+        $.ajax({
+            type: "POST",
+            url: "/products/addcartitem/",
+            data: {
+                id: id,
+                count: $('#' + id).val(),
+            },
+            success: function (result) {
+                alert('ok');
+            },
+            error: function (result) {
+                alert('error');
+            }
+        });
+    };
+
+</script>

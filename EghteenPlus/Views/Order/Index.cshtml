@@ -1,0 +1,106 @@
+﻿@model EghteenPlus.Models.OrderCartViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Order</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Url
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            Descr
+        </th>
+        <th>
+            Price
+        </th>
+        <th>
+            Quantity
+        </th>
+        <th>
+            TotalPrice
+        </th>
+    </tr>
+
+    @foreach (var item in Model.cart.Items)
+    {
+        <tr>
+            <td>
+                <img src="@item.Prod.Url" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Prod.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Prod.Descr)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Prod.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalPrice)
+            </td>
+        </tr>
+    }
+
+</table>
+
+<h3>Total Price = @Model.cart.GetSubTotal()</h3>
+
+@using (Html.BeginForm("Index", "Order", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.UserName, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.UserName)
+                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.UserPhone, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.UserPhone)
+                @Html.ValidationMessageFor(model => model.UserPhone, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-2">
+                Avatar
+            </div>
+            <div class="col-md-10">
+                <input type="file" name="upload" id="file" accept=".jpg,.png" />
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.UserComment, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.UserComment, new { rows = 4, cols = 80 })
+                @Html.ValidationMessageFor(model => model.UserComment, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <input type="submit" value="Buy" />
+    </div>
+}
+
+<script>
+    var uploadField = document.getElementById("file");
+
+    uploadField.onchange = function () {
+        if (this.files[0].size > 1024*1024) {
+            alert("File is too big!");
+            this.value = "";
+        };
+    };
+
+</script>
