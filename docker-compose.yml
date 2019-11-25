@@ -1,8 +1,0 @@
-version: '3.4'
-
-services:
-  eghteenplus:
-    image: ${DOCKER_REGISTRY-}eghteenplus
-    build:
-      context: .\EghteenPlus
-      dockerfile: Dockerfile
