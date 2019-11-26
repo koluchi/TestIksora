@@ -46,6 +46,7 @@ namespace EghteenPlus.Controllers
                     }
                     db.OrderProducts.AddRange(orderProducts);
                     db.SaveChanges();
+                    Cart.Instance.RemoveAll();
                 }
                 return Redirect("/Products");
             }
