@@ -14,5 +14,12 @@ namespace EghteenPlus.Controllers
         {
             return View(Cart.Instance.Items);
         }
+
+        [HttpPost]
+        public ActionResult Delete()
+        {
+            Cart.Instance.RemoveAll();
+            return Redirect("/Products");
+        }
     }
 }

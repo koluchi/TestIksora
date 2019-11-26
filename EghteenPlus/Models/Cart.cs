@@ -76,6 +76,11 @@ namespace EghteenPlus.Models
             Items.Remove(removedItem);
         }
 
+        public void RemoveAll()
+        {
+            Items.Clear();
+        }
+
         public decimal GetSubTotal()
         {
             decimal subTotal = 0;

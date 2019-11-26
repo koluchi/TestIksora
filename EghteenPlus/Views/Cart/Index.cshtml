@@ -5,11 +5,17 @@
 }
 
 <h2>Cart</h2>
+@using (Html.BeginForm("Delete", "Cart", FormMethod.Post))
+{
+    <p>
+        <input type="submit" value="Clear" />
+    </p>
+}
 @using (Html.BeginForm("Index", "Order", FormMethod.Get))
 {
-<p>
-    <input type="submit" value="Buy" />
-</p>
+    <p>
+        <input type="submit" value="Buy" />
+    </p>
 }
 
 <table class="table">
@@ -36,26 +42,26 @@
 
     @foreach (var item in Model)
     {
-    <tr>
-        <td>
-            <img src="@item.Prod.Url" />
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Prod.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Prod.Descr)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Prod.Price)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Quantity)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TotalPrice)
-        </td>
-    </tr>
+        <tr>
+            <td>
+                <img src="@item.Prod.Url" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Prod.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Prod.Descr)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Prod.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalPrice)
+            </td>
+        </tr>
     }
 
 </table>
