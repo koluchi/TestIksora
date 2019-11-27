@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EghteenPlus.Contracts;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Web;
 
 namespace EghteenPlus.Models
 {
-    public class Product
+    public class Product: IProduct
     {
         [Key]
         public Guid Id { get; set; }

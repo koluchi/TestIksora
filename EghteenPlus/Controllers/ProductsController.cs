@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using EghteenPlus.Contracts;
 using EghteenPlus.DA;
 using EghteenPlus.Models;
 using EntityState = System.Data.Entity.EntityState;
@@ -14,12 +15,16 @@ namespace EghteenPlus.Controllers
 {
     public class ProductsController : Controller
     {
-        private EPContext db = new EPContext();
+        private IDataService _dataService;
+        public ProductsController(IDataService dataService)
+        {
+            _dataService = dataService;
+        }
 
         // GET: Products
         public ActionResult Index(string sort = null, decimal from = 0, decimal to = decimal.MaxValue)
         {
-            var products = db.Products.Where(w => w.Price > from && w.Price < to).ToList();
+            var products = _dataService.GetProducts(from, to).ToList();
             if(sort != null)
             {
                 System.Web.HttpContext.Current.Session["ASPNETEghteenPlusProductSort"] = sort;
@@ -42,17 +47,8 @@ namespace EghteenPlus.Controllers
         [HttpPost]
         public void AddCartItem(Guid Id, int count)
         {
-            var product = db.Products.Single<Product>(s => s.Id == Id);
+            var product =_dataService.GetProduct(Id);
             Cart.Instance.AddItem(product, count);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

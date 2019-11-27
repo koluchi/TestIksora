@@ -5,10 +5,11 @@ using System.Web;
 using System.Drawing;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using EghteenPlus.Contracts;
 
 namespace EghteenPlus.Models
 {
-    public class Order
+    public class Order: IOrder
     {
         [Key]
         public Guid Id { get; set; }

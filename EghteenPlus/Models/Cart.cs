@@ -1,23 +1,21 @@
-﻿using EghteenPlus.DA;
-using System;
+﻿using EghteenPlus.Contracts;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 
 namespace EghteenPlus.Models
 {
-    public class Cart
+    public class Cart: ICart
     {
-        public List<CartItem> Items { get; private set; }
+        public List<ICartItem> Items { get; private set; }
 
-        public static readonly Cart Instance;
+        public static readonly ICart Instance;
 
         static Cart()
         {
             if (HttpContext.Current.Session["ASPNETEghteenPlusCart"] == null)
             {
                 Instance = new Cart();
-                Instance.Items = new List<CartItem>();
+                ((Cart)Instance).Items = new List<ICartItem>();
                 HttpContext.Current.Session["ASPNETEghteenPlusCart"] = Instance;
             }
             else
@@ -28,13 +26,13 @@ namespace EghteenPlus.Models
 
         protected Cart() { }
 
-        public void AddItem(Product product, int count)
+        public void AddItem(IProduct product, int count)
         {
-            CartItem newItem = new CartItem(product);
+            ICartItem newItem = new CartItem(product);
 
             if (Items.Contains(newItem))
             {
-                foreach (CartItem item in Items)
+                foreach (ICartItem item in Items)
                 {
                     if (item.Equals(newItem))
                     {
@@ -50,7 +48,7 @@ namespace EghteenPlus.Models
             }
         }
 
-        public void SetItemQuantity(Product product, int quantity)
+        public void SetItemQuantity(IProduct product, int quantity)
         {
             if (quantity == 0)
             {
@@ -58,9 +56,9 @@ namespace EghteenPlus.Models
                 return;
             }
 
-            CartItem updatedItem = new CartItem(product);
+            ICartItem updatedItem = new CartItem(product);
 
-            foreach (CartItem item in Items)
+            foreach (ICartItem item in Items)
             {
                 if (item.Equals(updatedItem))
                 {
@@ -70,9 +68,9 @@ namespace EghteenPlus.Models
             }
         }
 
-        public void RemoveItem(Product product)
+        public void RemoveItem(IProduct product)
         {
-            CartItem removedItem = new CartItem(product);
+            ICartItem removedItem = new CartItem(product);
             Items.Remove(removedItem);
         }
 
@@ -84,7 +82,7 @@ namespace EghteenPlus.Models
         public decimal GetSubTotal()
         {
             decimal subTotal = 0;
-            foreach (CartItem item in Items)
+            foreach (ICartItem item in Items)
                 subTotal += item.TotalPrice;
 
             return subTotal;
