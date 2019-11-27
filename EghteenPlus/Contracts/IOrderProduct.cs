@@ -13,8 +13,5 @@ namespace EghteenPlus.Contracts
         Guid ProductId { get; set; }
         decimal Price { get; set; }
         int Quantity { get; set; }
-
-        IOrder Order { get; set; }
-        IProduct Product { get; set; }
     }
 }
